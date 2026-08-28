@@ -1,4 +1,4 @@
-# Paper & Ink
+# Paper and Ink
 
 一组极简的 VS Code 配色主题，取自 [webwithoutjs.com/lab/paper-ink](https://webwithoutjs.com/lab/paper-ink/) 的纸墨配色：
 
@@ -34,8 +34,8 @@
 ### 方式二：打包安装
 
 ```bash
-npx @vscode/vsce package          # 生成 paper-ink-0.1.0.vsix
-code --install-extension paper-ink-0.1.0.vsix
+npx @vscode/vsce package          # 生成 vscode-paper-ink-theme-0.1.0.vsix
+code --install-extension vscode-paper-ink-theme-0.1.0.vsix
 ```
 
 ## 重新生成主题
