@@ -1,0 +1,38 @@
+{
+  "name": "paper-ink",
+  "displayName": "Paper & Ink",
+  "description": "Paper and Ink: a warm cream-paper light theme and a warm ink dark theme, after webwithoutjs.com/lab/paper-ink",
+  "version": "0.1.0",
+  "publisher": "ri",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "color-theme",
+    "light",
+    "dark",
+    "paper",
+    "ink",
+    "cream",
+    "minimal"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Paper",
+        "uiTheme": "vs",
+        "path": "./themes/paper-color-theme.json"
+      },
+      {
+        "label": "Ink",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ink-color-theme.json"
+      }
+    ]
+  }
+}
