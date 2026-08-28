@@ -13,6 +13,9 @@
 // VS Code themes only accept sRGB hex, so everything is converted here.
 // Four low-chroma hues (moss / slate / ochre / red) are derived from the
 // same color world for syntax categories the site does not define.
+// For the dark theme these syntax hues are desaturated further and pulled
+// closer to the background (v3) so they do not glow on the dark ink ground;
+// ink's keyword additionally uses a darker oxide than the UI accent.
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -53,6 +56,7 @@ const paper = {
   bg: oklchToHex(0.955, 0.022, 92), // --paper
   fg: oklchToHex(0.27, 0.025, 55), // --ink
   accent: oklchToHex(0.5, 0.16, 38), // --oxide (rust)
+  kw: oklchToHex(0.5, 0.16, 38), // keyword (same as accent)
   muted: oklchToHex(0.45, 0.03, 50), // --muted
   fill: oklchToHex(0.92, 0.025, 88), // --fill
   hover: oklchToHex(0.885, 0.03, 88), // derived: list/tab hover (deeper than fill)
@@ -69,16 +73,17 @@ const ink = {
   type: "dark",
   bg: oklchToHex(0.23, 0.02, 55), // --paper (dark side)
   fg: oklchToHex(0.93, 0.02, 92), // --ink (dark side)
-  accent: oklchToHex(0.68, 0.14, 45), // --oxide (terracotta)
+  accent: oklchToHex(0.68, 0.14, 45), // --oxide (terracotta) — UI accent
+  kw: oklchToHex(0.64, 0.095, 45), // keyword: oxide darkened for syntax (v3)
   muted: oklchToHex(0.72, 0.03, 75), // --muted
   fill: oklchToHex(0.28, 0.02, 55), // --fill
   hover: oklchToHex(0.335, 0.025, 55), // derived: list/tab hover (lighter than fill)
   deep: oklchToHex(0.12, 0.02, 55), // --backdrop base (solid)
   rule: oklchToHex(0.93, 0.02, 92, 0.25), // --rule
-  green: oklchToHex(0.72, 0.09, 155),
-  blue: oklchToHex(0.74, 0.09, 265),
-  amber: oklchToHex(0.76, 0.11, 85),
-  red: oklchToHex(0.7, 0.15, 25),
+  green: oklchToHex(0.69, 0.05, 155), // moss — strings (v3: desaturated)
+  blue: oklchToHex(0.71, 0.045, 265), // slate — functions / types (v3)
+  amber: oklchToHex(0.73, 0.065, 85), // ochre — constants (v3)
+  red: oklchToHex(0.67, 0.1, 25), // brick — errors (v3)
 };
 
 // ---------------------------------------------------------------- UI colors
@@ -343,7 +348,7 @@ function tokenColors(p) {
     ),
     t(
       ["keyword", "storage", "storage.type", "storage.modifier", "storage.unit", "punctuation.section.embedded"],
-      { foreground: p.accent }
+      { foreground: p.kw }
     ),
     t(["entity.name.function", "support.function"], { foreground: p.blue }),
     t(
@@ -358,15 +363,15 @@ function tokenColors(p) {
       ],
       { foreground: p.blue }
     ),
-    t(["entity.name.tag"], { foreground: p.accent }),
+    t(["entity.name.tag"], { foreground: p.kw }),
     t(["entity.other.attribute-name"], { foreground: p.amber }),
-    t(["variable.language"], { foreground: p.accent }),
+    t(["variable.language"], { foreground: p.kw }),
     t(["invalid"], { foreground: p.red }),
     t(["markup.heading"], { foreground: p.fg, fontStyle: "bold" }),
     t(["markup.italic"], { fontStyle: "italic" }),
     t(["markup.bold"], { fontStyle: "bold" }),
     t(["markup.underline.link.markdown", "markup.underline.link.html"], {
-      foreground: p.accent,
+      foreground: p.kw,
       fontStyle: "underline",
     }),
     t(["markup.inserted"], { foreground: p.green }),
@@ -382,10 +387,10 @@ function tokenColors(p) {
 function semanticTokenColors(p) {
   return {
     comment: p.muted,
-    keyword: p.accent,
-    storage: p.accent,
-    modifier: p.accent,
-    self: p.accent,
+    keyword: p.kw,
+    storage: p.kw,
+    modifier: p.kw,
+    self: p.kw,
     string: p.green,
     regexp: p.green,
     number: p.amber,
@@ -438,6 +443,7 @@ for (const p of [paper, ink]) {
     ["paper 纸面/背景", p.bg],
     ["ink 墨色/前景", p.fg],
     ["oxide 锈橙点缀", p.accent],
+    ["keyword 关键字", p.kw],
     ["muted 弱化文字", p.muted],
     ["fill 面板/终端底", p.fill],
     ["hover 列表/页签悬停", p.hover],
