@@ -55,6 +55,7 @@ const paper = {
   accent: oklchToHex(0.5, 0.16, 38), // --oxide (rust)
   muted: oklchToHex(0.45, 0.03, 50), // --muted
   fill: oklchToHex(0.92, 0.025, 88), // --fill
+  hover: oklchToHex(0.885, 0.03, 88), // derived: list/tab hover (deeper than fill)
   rule: oklchToHex(0.27, 0.025, 55, 0.25), // --rule
   // derived syntax hues (same hue logic, restrained chroma)
   green: oklchToHex(0.5, 0.075, 155), // moss — strings
@@ -71,6 +72,7 @@ const ink = {
   accent: oklchToHex(0.68, 0.14, 45), // --oxide (terracotta)
   muted: oklchToHex(0.72, 0.03, 75), // --muted
   fill: oklchToHex(0.28, 0.02, 55), // --fill
+  hover: oklchToHex(0.335, 0.025, 55), // derived: list/tab hover (lighter than fill)
   deep: oklchToHex(0.12, 0.02, 55), // --backdrop base (solid)
   rule: oklchToHex(0.93, 0.02, 92, 0.25), // --rule
   green: oklchToHex(0.72, 0.09, 155),
@@ -127,7 +129,7 @@ function uiColors(p) {
     "editorSuggestWidget.background": p.fill,
     "editorSuggestWidget.border": p.rule,
     "editorSuggestWidget.foreground": p.fg,
-    "editorSuggestWidget.selectedBackground": A(p.accent, 0.2),
+    "editorSuggestWidget.selectedBackground": A(p.accent, 0.28),
     "editorSuggestWidget.highlightForeground": p.accent,
     "editorHoverWidget.background": p.fill,
     "editorHoverWidget.border": p.rule,
@@ -219,13 +221,13 @@ function uiColors(p) {
     "tab.activeBorder": "transparent",
     "tab.activeBorderTop": p.accent,
     "tab.unfocusedActiveBorderTop": p.muted,
-    "tab.hoverBackground": p.fill,
+    "tab.hoverBackground": p.hover,
     "tab.hoverBorder": "transparent",
     "tab.lastPinnedBorder": p.rule,
 
     // lists, quick input, menus
-    "list.hoverBackground": p.fill,
-    "list.activeSelectionBackground": A(p.accent, 0.25),
+    "list.hoverBackground": p.hover,
+    "list.activeSelectionBackground": A(p.accent, 0.28),
     "list.activeSelectionForeground": p.fg,
     "list.inactiveSelectionBackground": A(p.fg, 0.1),
     "list.inactiveSelectionForeground": p.fg,
@@ -235,18 +237,18 @@ function uiColors(p) {
     "quickInput.background": p.fill,
     "quickInput.foreground": p.fg,
     "quickInput.titleBackground": A(p.fg, 0.08),
-    "quickInputList.focusBackground": A(p.accent, 0.2),
+    "quickInputList.focusBackground": A(p.accent, 0.28),
     "quickInputList.focusForeground": p.fg,
     "pickerGroup.border": p.rule,
     "pickerGroup.headerForeground": p.muted,
     "tree.indentGuidesStroke": p.rule,
     "menu.background": p.fill,
     "menu.foreground": p.fg,
-    "menu.selectionBackground": A(p.accent, 0.25),
+    "menu.selectionBackground": A(p.accent, 0.3),
     "menu.selectionForeground": p.fg,
     "menu.selectionBorder": p.accent,
     "menu.border": p.rule,
-    "menubar.selectionBackground": p.fill,
+    "menubar.selectionBackground": p.hover,
     "menubar.selectionForeground": p.fg,
 
     // buttons, inputs, badges
@@ -255,7 +257,7 @@ function uiColors(p) {
     "button.hoverBackground": p.accent,
     "button.secondaryBackground": p.fill,
     "button.secondaryForeground": p.fg,
-    "button.secondaryHoverBackground": p.rule,
+    "button.secondaryHoverBackground": p.hover,
     "input.background": p.bg,
     "input.foreground": p.fg,
     "input.border": p.rule,
@@ -307,7 +309,7 @@ function uiColors(p) {
     "gitDecoration.unchangedResourceForeground": p.muted,
     "portIndicator.foreground": p.muted,
     "welcomePage.background": p.bg,
-    "welcomePage.tileHoverBackground": p.fill,
+    "welcomePage.tileHoverBackground": p.hover,
     "settings.headerForeground": p.fg,
     "settings.modifiedIndicatorForeground": p.amber,
     "settings.dropdownBackground": p.fill,
@@ -438,6 +440,7 @@ for (const p of [paper, ink]) {
     ["oxide 锈橙点缀", p.accent],
     ["muted 弱化文字", p.muted],
     ["fill 面板/终端底", p.fill],
+    ["hover 列表/页签悬停", p.hover],
     ...(p.deep ? [["deep 状态栏底", p.deep]] : []),
     ["rule 分隔线 (25%)", p.rule],
     ["moss 字符串", p.green],
