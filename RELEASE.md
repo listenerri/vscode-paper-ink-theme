@@ -7,17 +7,16 @@
 5. Package the extension and publish to marketplace.
 
 ```
-# Install vsce if you haven't
-npm install -g @vscode/vsce
 
 # First time only: log in with a personal access token
-vsce login
+npx @vscode/vsce login
 
 # Package the extension
-vsce package
+npx @vscode/vsce package
 
 # Publish to marketplace
-vsce publish
+npx @vscode/vsce publish
+
 # Or upload and update the extension manually in marketplace on:
 # https://marketplace.visualstudio.com/manage/publishers/listenerri
 ```
