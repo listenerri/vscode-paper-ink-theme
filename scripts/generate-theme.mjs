@@ -78,7 +78,7 @@ const ink = {
   muted: oklchToHex(0.72, 0.03, 75), // --muted
   fill: oklchToHex(0.28, 0.02, 55), // --fill
   hover: oklchToHex(0.335, 0.025, 55), // derived: list/tab hover (lighter than fill)
-  deep: oklchToHex(0.12, 0.02, 55), // --backdrop base (solid)
+  deep: oklchToHex(0.19, 0.028, 50), // --backdrop base, solid; warmed up from 0.12 so the tint survives
   rule: oklchToHex(0.93, 0.02, 92, 0.25), // --rule
   green: oklchToHex(0.69, 0.05, 155), // moss — strings (v3: desaturated)
   blue: oklchToHex(0.71, 0.045, 265), // slate — functions / types (v3)
