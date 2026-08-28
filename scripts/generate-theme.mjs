@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Generates themes/paper-color-theme.json and themes/ink-color-theme.json
+// Generates the Paper / Ink themes plus their monochrome variants
+// (themes/paper-color-theme.json, ink, paper-mono, ink-mono)
 // from the color tokens of https://webwithoutjs.com/lab/paper-ink/
 //
 // The site's CSS (abridged):
@@ -85,6 +86,17 @@ const ink = {
   amber: oklchToHex(0.73, 0.065, 85), // ochre — constants (v3)
   red: oklchToHex(0.67, 0.1, 25), // brick — errors (v3)
 };
+
+// ---------------------------------------------------------------- mono variants
+// Monochrome variants: the UI keeps the full palette; only the editor
+// syntax highlighting collapses into the ink foreground, keeping the paper/
+// ink family shade for comments plus typographic emphasis (italic, bold,
+// underline).
+function monoVariant(base) {
+  return { ...base, mono: true, name: `${base.name} Mono` };
+}
+const paperMono = monoVariant(paper);
+const inkMono = monoVariant(ink);
 
 // ---------------------------------------------------------------- UI colors
 function uiColors(p) {
@@ -384,6 +396,33 @@ function tokenColors(p) {
   ];
 }
 
+// Monochrome syntax: no color differentiation at all — comments keep the
+// muted shade + italic, markdown keeps its typographic styles.
+function monoTokenColors(p) {
+  const t = (scope, settings) => ({ scope, settings });
+  return [
+    { settings: { foreground: p.fg } },
+    t(["comment", "punctuation.definition.comment"], {
+      foreground: p.muted,
+      fontStyle: "italic",
+    }),
+    t(["markup.quote"], { foreground: p.muted, fontStyle: "italic" }),
+    t(["meta.diff.header", "markup.meta.diff"], { foreground: p.muted }),
+    t(["markup.heading"], { foreground: p.fg, fontStyle: "bold" }),
+    t(["markup.italic"], { fontStyle: "italic" }),
+    t(["markup.bold"], { fontStyle: "bold" }),
+    t(["markup.underline.link.markdown", "markup.underline.link.html"], {
+      fontStyle: "underline",
+    }),
+  ];
+}
+
+function monoSemanticTokenColors(p) {
+  return {
+    comment: { foreground: p.muted, fontStyle: "italic" },
+  };
+}
+
 function semanticTokenColors(p) {
   return {
     comment: p.muted,
@@ -421,17 +460,21 @@ function semanticTokenColors(p) {
 
 // ---------------------------------------------------------------- write
 mkdirSync(join(root, "themes"), { recursive: true });
-const out = {
-  paper: join(root, "themes", "paper-color-theme.json"),
-  ink: join(root, "themes", "ink-color-theme.json"),
+const definitions = {
+  paper: { p: paper, tokens: tokenColors, semantic: semanticTokenColors },
+  "paper-mono": { p: paperMono, tokens: monoTokenColors, semantic: monoSemanticTokenColors },
+  ink: { p: ink, tokens: tokenColors, semantic: semanticTokenColors },
+  "ink-mono": { p: inkMono, tokens: monoTokenColors, semantic: monoSemanticTokenColors },
 };
-for (const [key, p] of Object.entries({ paper, ink })) {
+const out = {};
+for (const [key, { p, tokens, semantic }] of Object.entries(definitions)) {
+  out[key] = join(root, "themes", `${key}-color-theme.json`);
   const theme = {
     name: p.name,
     type: p.type,
     colors: uiColors(p),
-    tokenColors: tokenColors(p),
-    semanticTokenColors: semanticTokenColors(p),
+    tokenColors: tokens(p),
+    semanticTokenColors: semantic(p),
   };
   writeFileSync(out[key], JSON.stringify(theme, null, 2) + "\n");
 }
@@ -455,6 +498,10 @@ for (const p of [paper, ink]) {
     ["brick 错误", p.red],
   ];
   for (const [label, hex] of rows) console.log(`  ${label}: ${hex}`);
+}
+for (const p of [paperMono, inkMono]) {
+  console.log(`\n${p.name} (${p.type}, syntax monochrome):`);
+  console.log(`  syntax → ${p.fg} (ink), comments → ${p.muted}`);
 }
 console.log("\nWrote:");
 for (const f of Object.values(out)) console.log("  " + f);

@@ -34,9 +34,19 @@
         "path": "./themes/paper-color-theme.json"
       },
       {
+        "label": "Paper Mono",
+        "uiTheme": "vs",
+        "path": "./themes/paper-mono-color-theme.json"
+      },
+      {
         "label": "Ink",
         "uiTheme": "vs-dark",
         "path": "./themes/ink-color-theme.json"
+      },
+      {
+        "label": "Ink Mono",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ink-mono-color-theme.json"
       }
     ]
   }
