@@ -1,10 +1,15 @@
 {
   "name": "paper-ink",
   "displayName": "Paper & Ink",
-  "description": "Paper and Ink: a warm cream-paper light theme and a warm ink dark theme, after webwithoutjs.com/lab/paper-ink",
+  "description": "Paper and Ink: a warm cream-paper light theme and a warm ink dark theme",
   "version": "0.1.0",
-  "publisher": "ri",
+  "publisher": "listenerri",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/listenerri/vscode-paper-ink-theme"
+  },
+  "homepage": "https://github.com/listenerri/vscode-paper-ink-theme#readme",
   "engines": {
     "vscode": "^1.85.0"
   },
